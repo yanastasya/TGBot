@@ -13,10 +13,7 @@ class IsFromAdminsChat(BaseFilter):
 
 class AnswerForUser(BaseFilter):
     async def __call__(self, message: Message) -> bool:
-        if message.reply_to_message is not None:
-            print(message.reply_to_message.from_user.id)
-            print(os.getenv('BOT_ID'))
-            print (message.reply_to_message.from_user.id == os.getenv('BOT_ID'))
+        if message.reply_to_message is not None:            
             return (
                 message.reply_to_message.from_user.id == int(os.getenv('BOT_ID'))
             )

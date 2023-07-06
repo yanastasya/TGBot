@@ -9,7 +9,7 @@ from config_data.set_menu import set_main_menu
 from handlers import user_handlers, admin_handlers, other_handlers
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from database2.database import DataBase
+from database.database import DataBase
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -26,28 +26,17 @@ async def main():
                 filename="main.log", mode="a", encoding="UTF-8"
                 )
             ]
-    )
-
-    
-    logger.info('Starting bot')
-    
+    )    
+    logger.info('Starting bot')    
     config: Config = load_config()
-    
+
     # Инициализируем хранилище (создаем экземпляр класса MemoryStorage)Вместо него нужно Redis
     #redis: Redis = Redis(host='localhost')
     #storage: RedisStorage = RedisStorage(redis=redis)
     
-    db : DataBase = DataBase()
-    
-    db.create_table_admins_chat()
-    db.create_table_cache()
+    db : DataBase = DataBase()  
     db.create_table_statistic()
     
-    db.add_admin_chat_ids(os.getenv('ADMINS_CHAT_1'))
-    db.add_admin_chat_ids(os.getenv('ADMINS_CHAT_2'))
-
-    
-
     storage: MemoryStorage = MemoryStorage()
 
     bot: Bot = Bot(token=config.tg_bot.token,
@@ -60,16 +49,10 @@ async def main():
     # Настраиваем кнопку Menu
     await set_main_menu(bot)
 
-    # Регистриуем роутеры в диспетчере
-    
+    # Регистриуем роутеры в диспетчере    
     dp.include_router(admin_handlers.router)
     dp.include_router(user_handlers.router)
-    dp.include_router(other_handlers.router)
-
-    
-    
-    
-    # Пропускаем накопившиеся апдейты и запускаем polling
+    #dp.include_router(other_handlers.router) 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
 

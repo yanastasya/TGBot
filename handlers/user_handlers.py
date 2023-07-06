@@ -10,17 +10,19 @@ from aiogram.fsm.state import default_state
 from lexicon.lexicon_ru import LEXICON_RU
 from keyboards.tags_choose_keyboard import tags_choose_keyboard
 from keyboards.close_button import close_button
-from bot import DataBase
+
 
 from filters.user_filters import IsFromUser
 from errors.errors import NotFreeChatsException
 from FSM.fsm import FSMUser
+from database.cache import admins_chats_status, users_dict
+from services.services import choose_free_admin_chat
 
 load_dotenv()
 router: Router = Router()
 router.message.filter(IsFromUser())
 
-db = DataBase()
+
 
 
 @router.message(Command(commands='help'))
@@ -47,7 +49,7 @@ async def process_cancel_command(message: Message):
       
 
 @router.message(Command(commands='cancel'), ~StateFilter(default_state, FSMUser.choose_tag))
-async def process_cancel_command(message: Message, state: FSMContext):
+async def process_cancel_command(message: Message):
     await message.answer(text=LEXICON_RU['/cancel_impossible'])
 
 
@@ -69,23 +71,19 @@ async def warning_not_tag(message: Message):
 
 @router.message(StateFilter(FSMUser.send_first_question))
 async def process_send_first_question(message: Message, bot: Bot, state: FSMContext):
-    try:
-        chat_id = int(db.choose_free_admin_chat())
-        db.change_admin_chat_status_to_not_free(chat_id)
-    except NotFreeChatsException:
-        chat_id = os.getenv('ADMINS_EXTRA_CHAT')
+    chat_id = (choose_free_admin_chat(admins_chats_status))
+    if not chat_id==None:
+        admins_chats_status[str(chat_id)] = 'not_free'
+    else:    
+        chat_id = os.getenv('ADMINS_EXTRA_CHAT')    
     
-    user_id = message.chat.id
-    date_open = message.date.strftime("%Y-%m-%d %H:%M:%S")
     state_data = await state.get_data()
-    tag = state_data['tag']
+    tag = state_data['tag']    
 
-    db.save_data_to_cache(user_id, chat_id, tag, date_open)
-
-    await state.update_data(admin_chat_id=chat_id)
-    #await state.update_data(date_open=message.date)
-    #user_dict[message.chat.id] = await state.get_data() здесь достаточно и лучше сохранить в кэш в виде словаря,
-    # но я использую таблицу cache в постоянном хранилище, потому что не могу разобраться с redis...    
+    await state.update_data(admin_chat_id=int(chat_id))
+    await state.update_data(date_open=message.date)
+    
+    users_dict[message.chat.id] = await state.get_data() #здесь достаточно и лучше сохранить в кэш в виде словаря,   
 
     message_text = (
         f"Поступило новое обращение!"
