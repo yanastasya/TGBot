@@ -83,7 +83,7 @@ async def process_send_first_question(message: Message, bot: Bot, state: FSMCont
     await state.update_data(admin_chat_id=int(chat_id))
     await state.update_data(date_open=message.date)
     
-    users_dict[message.chat.id] = await state.get_data() #здесь достаточно и лучше сохранить в кэш в виде словаря,   
+    users_dict[message.chat.id] = await state.get_data()
 
     message_text = (
         f"Поступило новое обращение!"
@@ -103,7 +103,21 @@ async def process_not_first_sms(message: Message, state: FSMContext):
     await message.forward(chat_id, reply_markup=close_button)
 
 
-#@router.message()
-#async def answer_if_not_admins_update(message: Message, state: FSMContext):
- #   print((await state.get_data()))  
- #   await message.answer(text='Это сообщение прошло сквозь все фильтры юзеров')
+@router.callback_query(
+        StateFilter(FSMUser.send_another_question),
+        Text(text=['yes_close_user']))
+async def process_choose_tag(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(LEXICON_RU['is_closed_for_user_yes'])
+    await state.clear()
+
+
+@router.callback_query(
+        StateFilter(FSMUser.send_another_question),
+        Text(text=['no_close_user']))
+async def process_choose_tag(callback: CallbackQuery, state: FSMContext):
+    await callback.message.edit_text(LEXICON_RU['is_closed_for_user_no'])
+    await state.clear()
+
+
+
+

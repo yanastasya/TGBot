@@ -5,9 +5,9 @@ from aiogram.filters import Text
 from filters.admin_filters import IsFromAdminsChat, AnswerForUser
 from lexicon.lexicon_ru import LEXICON_RU
 
-from keyboards.close_button import yes_no_button
+from keyboards.close_button import confirm_closing_admin_buttons, confirm_closing_user_buttons
 from services.services import find_user_id_by_chat_id
-from database.cache import admins_chats_status,users_dict
+from database.cache import admins_chats_status, users_dict
 from database.database import DataBase
 
 
@@ -25,24 +25,28 @@ async def process_send_answer_to_user(message: Message):
 @router.callback_query(Text(text=['close']))
 async def process_close_contacting(callback: CallbackQuery):
     await callback.message.answer(
-        text=LEXICON_RU['confirm_closing'],
-        reply_markup=yes_no_button
+        text=LEXICON_RU['confirm_closing_admin'],
+        reply_markup=confirm_closing_admin_buttons
     )
 
 
-@router.callback_query(Text(text=['yes_close']))
+@router.callback_query(Text(text=['yes_close_admin']))
 async def process_confirm_closing(callback: CallbackQuery, bot: Bot):
-    chat_id = callback.message.chat.id    
-    user_id=find_user_id_by_chat_id(users_dict, chat_id)
+    chat_id = callback.message.chat.id
+    user_id = find_user_id_by_chat_id(users_dict, chat_id)
+    
+    await bot.send_message(
+        user_id,
+        LEXICON_RU['confirm_closing_user'],
+        reply_markup=confirm_closing_user_buttons
+    )
+    await bot.set_chat_title(chat_id, LEXICON_RU['default_admin_chat_title'])
 
-    await bot.send_message(user_id, LEXICON_RU['is_closed_for_user'])     
-    await bot.set_chat_title(chat_id, LEXICON_RU['default_admin_chat_title'])     
-
-    admins_chats_status[str(chat_id)]='free'
+    admins_chats_status[str(chat_id)] = 'free'
 
     tag = users_dict[user_id]['tag']
     date_open = users_dict[user_id]['date_open']
-    date_close = callback.message.date    
+    date_close = callback.message.date
     
     db.save_data_to_statistic(tag, date_open, date_close)
     del users_dict[user_id]    
@@ -52,8 +56,8 @@ async def process_confirm_closing(callback: CallbackQuery, bot: Bot):
         show_alert=True
     )
 
-@router.callback_query(Text(text=['no_close']))
-async def process_refute_closing(callback: CallbackQuery):
+@router.callback_query(Text(text=['no_close_admin']))
+async def process_refuse_closing(callback: CallbackQuery):
     await callback.message.edit_text(LEXICON_RU['no_close'])
 
 

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 from config_data.config import Config, load_config
 from config_data.set_menu import set_main_menu
-from handlers import user_handlers, admin_handlers, other_handlers
+from handlers import user_handlers, admin_handlers
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from database.database import DataBase

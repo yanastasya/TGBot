@@ -13,9 +13,20 @@ close_button: InlineKeyboardMarkup = InlineKeyboardMarkup(
 
 
 keyboard_2: list[list[InlineKeyboardButton]] = [
-        [InlineKeyboardButton(text='Да, вопрос закрыт, можно всё удалить', callback_data='yes_close')],
-        [InlineKeyboardButton(text='Нет', callback_data='no_close')]
+        [InlineKeyboardButton(text='Да, вопрос закрыт, можно всё удалить', callback_data='yes_close_admin')],
+        [InlineKeyboardButton(text='Нет', callback_data='no_close_admin')]
         ]
 
-yes_no_button: InlineKeyboardMarkup = InlineKeyboardMarkup(
-        inline_keyboard=keyboard_2)    
+confirm_closing_admin_buttons: InlineKeyboardMarkup = InlineKeyboardMarkup(
+        inline_keyboard=keyboard_2)
+
+
+keyboard_3: list[list[InlineKeyboardButton]] = [
+        [InlineKeyboardButton(text='Да, спасибо!', callback_data='yes_close_user')],
+        [InlineKeyboardButton(text='Нет, хочу задать еще вопрос.', callback_data='no_close_user')]
+        ]
+
+confirm_closing_user_buttons: InlineKeyboardMarkup = InlineKeyboardMarkup(
+        inline_keyboard=keyboard_3)
+
+
