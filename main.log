@@ -1,0 +1,9 @@
+bot.py:29 #INFO     [2023-07-08 17:02:57,376] - __main__ - Starting bot
+dispatcher.py:493 #INFO     [2023-07-08 17:02:58,607] - aiogram.dispatcher - Start polling
+dispatcher.py:329 #INFO     [2023-07-08 17:02:58,703] - aiogram.dispatcher - Run polling for bot @KlincovaFirstBot id=6132097411 - 'Echo'
+dispatcher.py:160 #INFO     [2023-07-08 17:03:13,160] - aiogram.event - Update id=607649271 is handled. Duration 375 ms by bot id=6132097411
+dispatcher.py:160 #INFO     [2023-07-08 17:03:18,463] - aiogram.event - Update id=607649272 is handled. Duration 186 ms by bot id=6132097411
+dispatcher.py:160 #INFO     [2023-07-08 17:03:21,011] - aiogram.event - Update id=607649274 is not handled. Duration 0 ms by bot id=6132097411
+dispatcher.py:160 #INFO     [2023-07-08 17:03:21,386] - aiogram.event - Update id=607649273 is handled. Duration 516 ms by bot id=6132097411
+dispatcher.py:520 #INFO     [2023-07-08 17:03:27,200] - aiogram.dispatcher - Polling stopped
+dispatcher.py:345 #INFO     [2023-07-08 17:03:27,203] - aiogram.dispatcher - Polling stopped for bot @KlincovaFirstBot id=6132097411 - 'Echo'
