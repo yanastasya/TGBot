@@ -3,8 +3,9 @@ name: Bot workflow
 on: [push]
 
 jobs:
-  build_and_push_to_docker_hub:     
-    
+  build_and_push_to_docker_hub:
+      
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
     #needs: tests      
@@ -29,3 +30,27 @@ jobs:
           context: ./bot
           push: true
           tags: yanastasya/bot:latest
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push_to_docker_hub
+    steps:
+      - name: executing remote ssh commands to deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script:
+            sudo docker-compose stop
+            sudo docker-compose rm bot
+            sudo docker pull yanastasya/bot:latest
+            rm .env
+            touch .env
+            echo BOT_TOKEN=${{ secrets.BOT_TOKEN }} >> .env
+            echo BOT_ID=${{ secrets.BOT_ID }} >> .env
+            echo ADMINS_CHAT_1=${{ secrets.ADMINS_CHAT_1 }} >> .env
+            echo ADMINS_CHAT_2=${{ secrets.ADMINS_CHAT_2 }} >> .env
+            echo ADMINS_EXTRA_CHAT=${{ secrets.ADMINS_EXTRA_CHAT_2 }} >> .env      
+            sudo docker-compose up -d
