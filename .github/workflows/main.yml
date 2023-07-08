@@ -29,7 +29,6 @@ jobs:
         with:
           context: ./bot
           push: true
-          tags: yanastasya/bot:latest
   
   deploy:
     runs-on: ubuntu-latest
@@ -52,12 +51,5 @@ jobs:
             echo BOT_ID=${{ secrets.BOT_ID }} >> .env
             echo ADMINS_CHAT_1=${{ secrets.ADMINS_CHAT_1 }} >> .env
             echo ADMINS_CHAT_2=${{ secrets.ADMINS_CHAT_2 }} >> .env
-            echo ADMINS_EXTRA_CHAT=${{ secrets.ADMINS_EXTRA_CHAT_2 }} >> .env          
-            #echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
-            #echo DB_NAME=${{ secrets.DB_NAME }} >> .env
-            #echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-            #echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
-            #echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-            #echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-            #echo SECRET_KEY=${{ secrets.SECRET_KEY }} >> .env
+            echo ADMINS_EXTRA_CHAT=${{ secrets.ADMINS_EXTRA_CHAT_2 }} >> .env      
             sudo docker-compose up -d
