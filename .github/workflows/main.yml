@@ -28,6 +28,7 @@ jobs:
         with:
           context: ./bot
           push: true
+          tags: yanastasya/bot:latest
   
   deploy:
     runs-on: ubuntu-latest
