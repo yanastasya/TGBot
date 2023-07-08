@@ -34,8 +34,8 @@ services:
    #   - /usr/src/app/data:/bitnami/redis/data
 
   bot:
-     container_name: telegram-bot
-     build: ./bot
+    container_name: telegram-bot
+    build: ./bot
     restart: always
     env_file:
       - .env
