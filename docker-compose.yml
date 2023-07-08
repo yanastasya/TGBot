@@ -19,21 +19,24 @@ services:
    #   - ${PG_PORT}
    # volumes:
    #   - /usr/src/app/data:/var/lib/postgresql/data/pgdata
-
+  
   redis:
-    container_name: redis-bot
-    image: redis:5-alpine
+    container_name: redis
+    image: redis:latest
     restart: always
-    env_file:
-      - .env
     ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
-    expose:
-      - ${REDIS_PORT}
+      - "6379:6379"
     volumes:
-      - /usr/src/app/data:/bitnami/redis/data
+      - /path/to/local/dаta:/root/redis
+      - /path/to/local/redis.conf:/usr/local/etc/redis/redis.conf
+    env_file:
+      - .env  
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DATABASES=5 
 
-  bot:
+    bot:
     container_name: telegram-bot
     image: yanastasya/bot:latest
     restart: always
@@ -48,4 +51,4 @@ services:
 
 volumes:
   #postgres-data:
-  redis-data:
+  redis:
