@@ -94,6 +94,7 @@ async def process_send_first_question(message: Message, bot: Bot, state: FSMCont
     await bot.set_chat_title(chat_id, chat_title)
     await bot.send_message(chat_id, message_text)        
     await message.send_copy(chat_id, reply_markup=close_button)
+    await message.answer(LEXICON_RU['send_first_question'])
     await state.set_state(FSMUser.send_another_question)
 
 
