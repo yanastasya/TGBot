@@ -51,5 +51,5 @@ jobs:
             echo BOT_ID=${{ secrets.BOT_ID }} >> .env
             echo ADMINS_CHAT_1=${{ secrets.ADMINS_CHAT_1 }} >> .env
             echo ADMINS_CHAT_2=${{ secrets.ADMINS_CHAT_2 }} >> .env
-            echo ADMINS_EXTRA_CHAT=${{ secrets.ADMINS_EXTRA_CHAT_2 }} >> .env      
+            echo ADMINS_EXTRA_CHAT=${{ secrets.ADMINS_EXTRA_CHAT_2 }} >> .env
             sudo docker-compose up -d
