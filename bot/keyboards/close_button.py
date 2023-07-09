@@ -26,10 +26,11 @@ confirm_closing_admin_buttons: InlineKeyboardMarkup = InlineKeyboardMarkup(
 
 keyboard_3: list[list[InlineKeyboardButton]] = [
         [InlineKeyboardButton(
-            text='Да, спасибо!', callback_data='yes_close_user'
+            text='Да, спасибо! \U00002714', callback_data='yes_close_user'
             )],
         [InlineKeyboardButton(
-            text='Нет, хочу задать еще вопрос.', callback_data='no_close_user'
+            text='Нет, хочу задать еще вопрос. \U0000274C',
+            callback_data='no_close_user'
             )]
         ]
 

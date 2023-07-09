@@ -118,11 +118,11 @@ async def process_send_first_question(
 
     message_text = (
         f"\U00002757 Поступило новое обращение \U00002757\n"
-        f"<b>Тема:</b> {tag}\n "
+        f"<b>Тема:</b> {tag}\n"
         f"<b>От кого</b>:\n"
-        f"username: {message.chat.username}\n"
+        f"username: {message.chat.username} "
         f"( {message.chat.first_name} "
-        f" {message.chat.last_name} )"
+        f" {message.chat.last_name} )\n"
         f"\U0001F447\U0001F447\U0001F447<b>содержание</b>"
         f"\U0001F447\U0001F447\U0001F447"
 
