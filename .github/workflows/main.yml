@@ -28,21 +28,5 @@ jobs:
         with:
           context: ./bot
           push: true
-          tags: yanastasya/bot:latest
+          tags: yanastasya/bot:latest 
   
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build_and_push_to_docker_hub
-    steps:
-      - name: executing remote ssh commands to deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          script:
-            sudo docker-compose stop
-            sudo docker-compose rm bot
-            sudo docker pull yanastasya/bot:latest                        
-            sudo docker-compose up -d
