@@ -6,9 +6,11 @@ from environs import Env
 class TgBot:
     token: str
 
+
 @dataclass
 class Config:
     tg_bot: TgBot
+
 
 def load_config(path: str | None = None) -> Config:
     env = Env()

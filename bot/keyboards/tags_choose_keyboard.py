@@ -1,26 +1,20 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-TAGS = {
-    'Сотрудничество': 'cooperation',
-    'Баги': 'bags',
-    'Платформа': 'platform',
-    'Другое': 'other'
-}
 
 button_1: InlineKeyboardButton = InlineKeyboardButton(
-    text='Платформа',
+    text='Платформа \U0001F4BB',
     callback_data='Платформа')
 
 button_2: InlineKeyboardButton = InlineKeyboardButton(
-    text='Сотрудничество',
+    text='Сотрудничество \U0001F37B',
     callback_data='Сотрудничество')
 
 button_3: InlineKeyboardButton = InlineKeyboardButton(
-    text='Баги',
+    text='Баги \U00002049',
     callback_data='Баги')
 
 button_4: InlineKeyboardButton = InlineKeyboardButton(
-    text='Другое',
+    text='Другое \U0001F609',
     callback_data='Другое')
 
 tags_choose_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
